@@ -13,46 +13,57 @@ Body Thermal Segmentation using U-Net is a Flask-based web application that allo
 
 **File Structure:**
 ```
-project_root/
-│
-├── app.py                     # Flask web application
-│
-├── models/
-│   └── 2.0-model.h5           # Pre-trained U-Net model
-│
-├── data/                      # Folder for storing data
-│   ├── images/                # Folder for storing thermal images
-│   │   ├── image1.jpg         # Example thermal image 1
-│   │   ├── image2.jpg         # Example thermal image 2
-│   │   └── ...
-│   └── masks/           # Folder for storing segmentation masks (if available)
-│       ├── mask1.png    # Example mask 1
-│       ├── mask2.png    # Example mask 2
-│       └── ...
-│
-├── notebooks/
-│   ├── data_analysis.ipynb    # Notebook for data analysis
-│   ├── model_training.ipynb   # Notebook for model training
-│   └── model_evaluation.ipynb # Notebook for model evaluation
-│
-├── references/
-│   ├── journal_paper1.pdf     # Reference journal paper
-│
-├── src/
-│   ├── data/
-│   │   └── make_dataset.py    # Script for reading images
-│   │
-│   ├── models/
-│   │   ├── train_model.py     # Script for training the model
-│   │   ├── predict_model.py   # Script for making predictions
-│   │   └── __init__.py
-│   │
-│   └── visualization/
-│       └── visualize.py       # Script for visualizing predictions
-│
-└── templates/
-│   └── index.html             # HTML template for the web interface
-└── uploads/                   # temp folder for storing uploaded images
+├── app.py
+├── data
+│   ├── images
+│       ├── image1.png
+│       ├── image2.png
+│       └──  image3.png
+│   ├── mask
+│       ├── mask1.png
+│       ├── mask2.png
+│       └──  mask3.png
+├── docker-compose.yml
+├── Dockerfile
+├── models
+│   └── 2.0-model.h5
+├── notebooks
+│   ├── 1.0-initial-unet.ipynb
+│   ├── 1.1-unet.ipynb
+│   ├── 2.0-unet-with-pretrained-mobile-net.ipynb
+│   └── documentation.md
+├── readme.md
+├── references
+│   ├── MobileNetV2 architecture.png
+│   ├── u-net-architecture.png
+│   └── U-Net: Convolutional Networks for Biomedical.pdf
+├── requirements.txt
+├── src
+│   ├── data
+│   │   ├── __init__.py
+│   │   ├── make_dataset.py
+│   │   └── __pycache__
+│   │       ├── __init__.cpython-310.pyc
+│   │       ├── __init__.cpython-39.pyc
+│   │       ├── make_dataset.cpython-310.pyc
+│   │       └── make_dataset.cpython-39.pyc
+│   ├── __init__.py
+│   ├── models
+│   │   ├── predict_model.py
+│   │   ├── __pycache__
+│   │   │   ├── predict_model.cpython-310.pyc
+│   │   │   ├── predict_model.cpython-39.pyc
+│   │   │   ├── train_model.cpython-310.pyc
+│   │   │   └── train_model.cpython-39.pyc
+│   │   └── train_model.py
+│   └── visualization
+│       ├── __init__.py
+│       └── visualize.py
+├── static
+│   ├── output
+│   └── uploads
+└── templates
+    └── index.html
 ```
 
 **Dependencies:**
@@ -61,12 +72,14 @@ project_root/
 - Keras
 
 **Usage:**
-1. Ensure all dependencies are installed.
-2. Place the pre-trained U-Net model (`2.0-model.h5`) in the `models/` directory.
-3. Run the Flask application using `python app.py`.
-4. Access the web interface via a web browser.
-5. Upload a thermal image of a human body for segmentation.
-6. View the segmentation prediction.
+1. Make sure have docker installed
+2. Run docker
+    ```sh
+    docker compose up
+    ```
+3. Open your web browser and go to `http://127.0.0.1:5000`.
+
+5. Use the interface to upload an image to doing prediction.
 
 **Features:**
 - Simple and intuitive web interface for uploading images.
