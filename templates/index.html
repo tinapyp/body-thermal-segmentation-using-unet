@@ -12,7 +12,10 @@
       <button type="submit">Predict</button>
     </form>
     {% if prediction_text %}
-    <p>{{ prediction_text }}</p>
+      <p>{{ prediction_text }}</p>
+    {% endif %}
+    {% if prediction_image %}
+      <img src="{{ prediction_image }}" alt="Prediction Image" />
     {% endif %}
   </body>
 </html>
