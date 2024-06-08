@@ -1,95 +1,95 @@
-**Body Thermal Segmentation using U-Net**
+Sure! Below is a `README.md` file that describes how to use the provided script for segmenting and analyzing the hottest areas of the human body from images or live camera feed.
 
----
+```markdown
+# Segmentasi Dan Analisis Suhu Terpanas Tubuh Manusia
 
-**Overview:**
-Body Thermal Segmentation using U-Net is a Flask-based web application that allows users to upload thermal images of human bodies and performs segmentation using a pre-trained U-Net model. The application provides a simple interface for users to upload images, makes predictions on them, and visualizes the segmentation results.
+This application performs segmentation and analysis of the hottest areas of the human body using a pre-trained UNet model. The application allows you to upload an image or use a live camera feed for real-time analysis.
 
-**Components:**
-1. **Flask Web Application:** Handles HTTP requests and serves web pages to users.
-2. **U-Net Model:** A pre-trained deep learning model implemented using TensorFlow Keras for semantic segmentation of thermal images.
-3. **Image Processing Scripts:** Includes scripts for reading images, training the model, making predictions, and visualizing the results.
-4. **HTML Templates:** Provides the HTML templates for the web pages rendered by the Flask application.
+## Features
 
-**File Structure:**
-```
-├── app.py
-├── data
-│   ├── images
-│       ├── image1.png
-│       ├── image2.png
-│       └──  image3.png
-│   ├── mask
-│       ├── mask1.png
-│       ├── mask2.png
-│       └──  mask3.png
-├── docker-compose.yml
-├── Dockerfile
-├── models
-│   └── 2.0-model.h5
-├── notebooks
-│   ├── 1.0-initial-unet.ipynb
-│   ├── 1.1-unet.ipynb
-│   ├── 2.0-unet-with-pretrained-mobile-net.ipynb
-│   └── documentation.md
-├── readme.md
-├── references
-│   ├── MobileNetV2 architecture.png
-│   ├── u-net-architecture.png
-│   └── U-Net: Convolutional Networks for Biomedical.pdf
-├── requirements.txt
-├── src
-│   ├── data
-│   │   ├── __init__.py
-│   │   ├── make_dataset.py
-│   │   └── __pycache__
-│   │       ├── __init__.cpython-310.pyc
-│   │       ├── __init__.cpython-39.pyc
-│   │       ├── make_dataset.cpython-310.pyc
-│   │       └── make_dataset.cpython-39.pyc
-│   ├── __init__.py
-│   ├── models
-│   │   ├── predict_model.py
-│   │   ├── __pycache__
-│   │   │   ├── predict_model.cpython-310.pyc
-│   │   │   ├── predict_model.cpython-39.pyc
-│   │   │   ├── train_model.cpython-310.pyc
-│   │   │   └── train_model.cpython-39.pyc
-│   │   └── train_model.py
-│   └── visualization
-│       ├── __init__.py
-│       └── visualize.py
-├── static
-│   ├── output
-│   └── uploads
-└── templates
-    └── index.html
-```
+- Load a pre-trained UNet model for image segmentation.
+- Upload an image for analysis.
+- Use a live camera feed for real-time analysis.
+- Display original and processed images side by side.
+- Display metrics such as IoU, accuracy, precision, recall, and Dice score.
 
-**Dependencies:**
-- Flask
+## Requirements
+
+- Python 3.7 or higher
 - TensorFlow
-- Keras
+- OpenCV
+- Pillow
+- Tkinter
 
-**Usage:**
-1. Clone this repo
-    ``` sh
-    git clone https://github.com/tinapyp/body-thermal-segmentation-using-unet
-    ```
-2. Pull data using git lfs
-   ```sh
-   git lfs pull
-   ```
-3. Make sure have docker installed
-4. Run docker
-    ```sh
-    docker compose up
-    ```
-5. Open your web browser and go to `http://127.0.0.1:5000`.
+## Installation
 
-6. Use the interface to upload an image to doing prediction.
+1. Clone the repository:
 
-**Features:**
-- Simple and intuitive web interface for uploading images.
-- Real-time prediction and visualization of thermal image segmentation.
-- .png image only for thermal image formats.
+```sh
+git clone https://github.com/tinapyp/body-thermal-segmentation-using-unet
+cd body-thermal-segmentation-using-unet
+```
+
+if you want to pull the data as well you can use
+```sh
+git lfs pull
+```
+
+2. Install the required dependencies:
+
+```sh
+pip install -r requirements.txt
+```
+
+## Usage
+
+1. Ensure you have the pre-trained model file `2.0-model.h5` in the `models` directory.
+
+2. Run the application:
+
+```sh
+python app.py
+```
+
+3. The main window of the application will appear.
+
+### Upload Image
+
+1. Click the "Upload Image" button.
+2. Select an image file from your local filesystem.
+3. The application will display the original image and the processed image side by side, along with segmentation metrics.
+
+### Use Camera
+
+1. Click the "Use Camera" button.
+2. The application will start capturing frames from your camera.
+3. The original and processed frames will be displayed side by side in real-time.
+
+### Metrics Displayed
+
+- **IoU (Intersection over Union)**
+- **Accuracy**
+- **Precision**
+- **Recall**
+- **Dice Score**
+
+## File Structure
+
+- `app.py`: Main application script.
+- `models/2.0-model.h5`: Pre-trained UNet model file.
+- `requirements.txt`: Required Python packages.
+- `README.md`: Documentation file.
+
+## Screenshots
+
+### Main Window
+
+![Main Window](references/main.png)
+
+## Contributing
+If you would like to contribute to this project, please create a fork of the repository and submit a pull request with your changes.
+
+## Acknowledgements
+
+- The UNet model used in this application is based on the paper ["U-Net: Convolutional Networks for Biomedical Image Segmentation"](https://arxiv.org/abs/1505.04597) by Olaf Ronneberger, Philipp Fischer, and Thomas Brox.
+- The implementation of the Dice loss and Dice coefficient functions is based on various online resources and adapted for this project.

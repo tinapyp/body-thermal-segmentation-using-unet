@@ -27,7 +27,7 @@ class App:
         self.title_label.grid(row=0, column=0, columnspan=2, pady=10)
 
         # Original Image Display
-        self.original_image_label = tk.Label(self.main_frame, text="Original Image")
+        self.original_image_label = tk.Label(self.main_frame, text=" ")
         self.original_image_label.grid(row=1, column=0)
         self.original_image_panel = tk.Label(self.main_frame)
         self.original_image_panel.grid(row=2, column=0)
@@ -52,13 +52,11 @@ class App:
         self.result_label.grid(row=4, column=0, columnspan=2)
 
         # Load a default image
-        self.image_path = "/Users/tinapyp/Dev/Freelance/FastWork/body-thermal-segmentation-using-unet/references/u-net-architecture.png"
-        self.display_image(self.image_path, self.original_image_panel)
-
-        # Initialize camera capture
-        self.cap = cv2.VideoCapture(0)
+        # self.image_path = "references/168_as_tkaki20.png"
+        # self.display_image(self.image_path, self.original_image_panel)
 
     def forget_processed_image_display(self):
+        self.original_image_label.grid_forget()
         self.processed_image_label.grid_forget()
         self.processed_image_panel.grid_forget()
 
@@ -184,6 +182,7 @@ class App:
 
     def use_camera(self):
         # Check if camera is available
+        self.cap = cv2.VideoCapture(0)
         if not self.cap.isOpened():
             messagebox.showerror("Error", "Camera not found.")
             return
