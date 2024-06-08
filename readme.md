@@ -72,14 +72,22 @@ Body Thermal Segmentation using U-Net is a Flask-based web application that allo
 - Keras
 
 **Usage:**
-1. Make sure have docker installed
-2. Run docker
+1. Clone this repo
+    ``` sh
+    git clone https://github.com/tinapyp/body-thermal-segmentation-using-unet
+    ```
+2. Pull data using git lfs
+   ```sh
+   git lfs pull
+   ```
+3. Make sure have docker installed
+4. Run docker
     ```sh
     docker compose up
     ```
-3. Open your web browser and go to `http://127.0.0.1:5000`.
+5. Open your web browser and go to `http://127.0.0.1:5000`.
 
-5. Use the interface to upload an image to doing prediction.
+6. Use the interface to upload an image to doing prediction.
 
 **Features:**
 - Simple and intuitive web interface for uploading images.
