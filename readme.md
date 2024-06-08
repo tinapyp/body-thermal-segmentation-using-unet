@@ -1,6 +1,3 @@
-Sure! Below is a `README.md` file that describes how to use the provided script for segmenting and analyzing the hottest areas of the human body from images or live camera feed.
-
-```markdown
 # Segmentasi Dan Analisis Suhu Terpanas Tubuh Manusia
 
 This application performs segmentation and analysis of the hottest areas of the human body using a pre-trained UNet model. The application allows you to upload an image or use a live camera feed for real-time analysis.
