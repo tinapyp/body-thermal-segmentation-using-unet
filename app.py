@@ -7,6 +7,7 @@ from tensorflow.keras.models import load_model
 from src.models.train_model import dice_coef, dice_loss
 from sklearn.metrics import confusion_matrix, classification_report
 import os
+import threading
 
 # Load the pre-trained model
 MODEL_PATH = "models/2.0-model.h5"
@@ -79,26 +80,6 @@ class App:
             self.analyze_image(self.image_path)
         else:
             self.forget_processed_image_display()
-
-    def use_camera(self):
-        # Check if camera is available
-        if not self.cap.isOpened():
-            messagebox.showerror("Error", "Camera not found.")
-            return
-
-        # Capture frame from camera
-        ret, frame = self.cap.read()
-
-        if ret:
-            # Save the captured image to a temporary file
-            temp_image_path = "static/temp/temp_camera_image.png"
-            cv2.imwrite(temp_image_path, frame)
-
-            # Call analyze_image with the captured image path
-            self.analyze_image(temp_image_path)
-
-        else:
-            messagebox.showerror("Error", "Failed to capture image from camera.")
 
     def analyze_image(self, file_path):
         if not file_path:
@@ -201,9 +182,87 @@ class App:
         except Exception as e:
             messagebox.showerror("Error", f"An error occurred during prediction: {str(e)}")
 
+    def use_camera(self):
+        # Check if camera is available
+        if not self.cap.isOpened():
+            messagebox.showerror("Error", "Camera not found.")
+            return
+        
+        # Create a thread for camera capture
+        camera_thread = threading.Thread(target=self.camera_capture_loop)
+        camera_thread.start()
+
+    def camera_capture_loop(self):
+        while True:
+            # Capture frame from camera
+            ret, frame = self.cap.read()
+
+            if ret:
+                # Perform prediction on the captured frame
+                self.analyze_frame(frame)
+
+                # Check if the user closed the window
+                if cv2.waitKey(1) & 0xFF == ord('q'):
+                    break
+            else:
+                messagebox.showerror("Error", "Failed to capture image from camera.")
+                break
+
+        # Release the camera
+        self.cap.release()
+        cv2.destroyAllWindows()
+
+    def analyze_frame(self, frame):
+        try:
+            # Perform prediction on the frame
+            # Convert BGR image to RGB
+            frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+
+            # Resize the frame for processing
+            resized_frame = cv2.resize(frame_rgb, (256, 256)) / 255.0
+
+            # Perform prediction using the UNet model
+            prediction = model.predict(np.expand_dims(resized_frame, axis=0))[0]
+
+            # Thresholding the prediction to obtain binary mask
+            threshold = 0.8  # Adjust this threshold as needed
+            binary_mask = (prediction > threshold).astype(np.uint8)
+
+            # Resize the binary mask to the original frame size
+            binary_mask_resized = cv2.resize(binary_mask, (frame.shape[1], frame.shape[0]))
+
+            # Create an overlay of the original frame and the processed binary mask
+            # overlay = cv2.addWeighted(frame_rgb, 0.7, cv2.cvtColor(binary_mask_resized * 255, cv2.COLOR_GRAY2RGB), 0.3, 0)
+
+            # Convert the overlay to ImageTk format
+            overlay_image = Image.fromarray(binary_mask_resized * 255)
+            overlay_image.thumbnail((300, 300))  # Resize the overlay image to fit within the panel
+            overlay_image = ImageTk.PhotoImage(overlay_image)
+
+            # Display the processed frame in the processed image panel
+            self.processed_image_panel.config(image=overlay_image)
+            self.processed_image_panel.image = overlay_image
+
+            # Convert the original frame to ImageTk format
+            original_image = Image.fromarray(frame_rgb)
+            original_image.thumbnail((300, 300))  # Resize the original image to fit within the panel
+            original_image = ImageTk.PhotoImage(original_image)
+
+            # Display the original frame in the original image panel
+            self.original_image_panel.config(image=original_image)
+            self.original_image_panel.image = original_image
+
+            # Show the processed image panel and label
+            self.processed_image_label.grid(row=1, column=1)
+            self.processed_image_panel.grid(row=2, column=1)
+
+            self.root.update()
+
+        except Exception as e:
+            messagebox.showerror("Error", f"An error occurred during prediction: {str(e)}")
+    
 
 if __name__ == "__main__":
     root = tk.Tk()
     app = App(root)
     root.mainloop()
-
