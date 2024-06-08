@@ -8,7 +8,7 @@ def mask_parse(mask):
     mask = np.squeeze(mask)
     mask = [mask, mask, mask]
     mask = np.transpose(mask, (1, 2, 0))
-    return mask.astype(np.float32)  # Convert to float32
+    return mask.astype(np.float32)
 
 
 def visualize_prediction(image_path, prediction, output_folder="static/output"):
